@@ -20,9 +20,35 @@ namespace l1_t2_calculator
     /// </summary>
     public partial class MainWindow : Window
     {
+        float activeRegister = 0.0f;
+        float resultRegister = 0.0f;
+        string history = "";
+
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void btn1_Click(object sender, RoutedEventArgs e)
+        {
+            GrowNumberBy(1);
+            ShowActiveRegister();
+        }
+
+        private void ShowActiveRegister()
+        {
+            textActiveRegister.Text = activeRegister.ToString(); 
+        }
+
+        /// <summary>
+        /// Сдвинуть активный регистр на 1 порядок (*10) и добавить 
+        /// данное значение
+        /// </summary>
+        /// <param name="value">Значение к добавление</param>
+        private void GrowNumberBy(int value)
+        {
+            activeRegister *= 10;
+            activeRegister += value;
         }
     }
 }
