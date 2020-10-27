@@ -33,23 +33,23 @@
         <Button x:Name="btnDel" Grid.Column="2" Grid.Row="2" Margin="3" FontSize="33" Content="&lt;"/>
         <Button Name="btnDivision" Grid.Column="3" Grid.Row="2" Margin="3" FontSize="33">/</Button>
 
-        <Button Name="btn7" Grid.Column="0" Grid.Row="3" Margin="3" FontSize="33">7</Button>
-        <Button Name="btn8" Grid.Column="1" Grid.Row="3" Margin="3" FontSize="33">8</Button>
-        <Button x:Name="btn9" Grid.Column="2" Grid.Row="3" Margin="3" FontSize="33" Content="9"/>
+        <Button Name="btn7" Grid.Column="0" Grid.Row="3" Margin="3" FontSize="33" Click="btn7_Click">7</Button>
+        <Button Name="btn8" Grid.Column="1" Grid.Row="3" Margin="3" FontSize="33" Click="btn8_Click">8</Button>
+        <Button x:Name="btn9" Grid.Column="2" Grid.Row="3" Margin="3" FontSize="33" Content="9" Click="btn9_Click"/>
         <Button Name="btnMul" Grid.Column="3" Grid.Row="3" Margin="3" FontSize="33">*</Button>
 
-        <Button Name="btn4" Grid.Column="0" Grid.Row="4" Margin="3" FontSize="33">4</Button>
-        <Button Name="btn5" Grid.Column="1" Grid.Row="4" Margin="3" FontSize="33">5</Button>
-        <Button x:Name="btn6" Grid.Column="2" Grid.Row="4" Margin="3" FontSize="33" Content="6"/>
+        <Button Name="btn4" Grid.Column="0" Grid.Row="4" Margin="3" FontSize="33" Click="btn4_Click">4</Button>
+        <Button Name="btn5" Grid.Column="1" Grid.Row="4" Margin="3" FontSize="33" Click="btn5_Click">5</Button>
+        <Button x:Name="btn6" Grid.Column="2" Grid.Row="4" Margin="3" FontSize="33" Content="6" Click="btn6_Click"/>
         <Button Name="btnSub" Grid.Column="3" Grid.Row="4" Margin="3" FontSize="33">-</Button>
 
         <Button Name="btn1" Grid.Column="0" Grid.Row="5" Margin="3" FontSize="33" Click="btn1_Click">1</Button>
         <Button Name="btn2" Grid.Column="1" Grid.Row="5" Margin="3" FontSize="33" Click="btn2_Click">2</Button>
-        <Button x:Name="btn3" Grid.Column="2" Grid.Row="5" Margin="3" FontSize="33" Content="3"/>
+        <Button x:Name="btn3" Grid.Column="2" Grid.Row="5" Margin="3" FontSize="33" Content="3" Click="btn3_Click"/>
         <Button Name="btnAdd" Grid.Column="3" Grid.Row="5" Margin="3" FontSize="33">+</Button>
 
         <Button Name="btnPoint" Grid.Column="0" Grid.Row="6" Margin="3" FontSize="33">.</Button>
-        <Button Name="btn0" Grid.Column="1" Grid.Row="6" Margin="3" FontSize="33">0</Button>
+        <Button Name="btn0" Grid.Column="1" Grid.Row="6" Margin="3" FontSize="33" Click="btn0_Click">0</Button>
         <Button x:Name="btnCalc" Grid.Column="2" Grid.Row="6" Margin="3" FontSize="33" Content="=" Grid.ColumnSpan="2"/>
     </Grid>
 </Window>

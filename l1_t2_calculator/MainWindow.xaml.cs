@@ -24,6 +24,7 @@ namespace l1_t2_calculator
     /// 3. Имеет регистр истории - куда пишется выражение введённое пользователем
     ///     до нажатия кнопки "=" (вычислить)
     /// 4. Активный регистр ограничен 7 символами
+    /// 5. При нажатии 0 происходит сдвиг регистра (на 10), но только когда он > 0
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -63,6 +64,11 @@ namespace l1_t2_calculator
                 return;
             }
 
+            if((activeRegister == 0)&&(value == 0))
+            {
+                return;
+            }
+
             activeRegisterDigits += 1;
 
             activeRegister *= 10;
@@ -84,6 +90,46 @@ namespace l1_t2_calculator
         {
             GrowNumberBy(value);
             ShowActiveRegister();
+        }
+
+        private void btn3_Click(object sender, RoutedEventArgs e)
+        {
+            GrowAndShowBy(3);
+        }
+
+        private void btn4_Click(object sender, RoutedEventArgs e)
+        {
+            GrowAndShowBy(4);
+        }
+
+        private void btn5_Click(object sender, RoutedEventArgs e)
+        {
+            GrowAndShowBy(5);
+        }
+
+        private void btn6_Click(object sender, RoutedEventArgs e)
+        {
+            GrowAndShowBy(6);
+        }
+
+        private void btn7_Click(object sender, RoutedEventArgs e)
+        {
+            GrowAndShowBy(7);
+        }
+
+        private void btn8_Click(object sender, RoutedEventArgs e)
+        {
+            GrowAndShowBy(8);
+        }
+
+        private void btn9_Click(object sender, RoutedEventArgs e)
+        {
+            GrowAndShowBy(9);
+        }
+
+        private void btn0_Click(object sender, RoutedEventArgs e)
+        {
+            GrowAndShowBy(0);
         }
     }
 }
