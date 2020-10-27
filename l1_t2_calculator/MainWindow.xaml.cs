@@ -66,7 +66,7 @@ namespace l1_t2_calculator
         /// данное значение
         /// </summary>
         /// <param name="value">Значение к добавление</param>
-        private void GrowNumberBy(int value)
+        private void GrowNumberBy(int value) // Move -> Register class
         {
             if(activeRegisterDigits == MAX_ACTIVE_DIGITS)
             {
@@ -88,12 +88,17 @@ namespace l1_t2_calculator
         /// <summary>
         /// Очистить все регистры и историю (0 поставить в активный и результат регистры)
         /// </summary>
-        void ClearCalculator()
+        void ClearCalculator() // Move -> Calculator class
         {
-            activeRegister = 0;
+            ClearActiveRegister();
             activeRegisterDigits = 0;
             resultRegister = 0;
             history = "";
+        }
+
+        void ClearActiveRegister() // Move -> Register (active)
+        {
+            activeRegister = 0;
         }
 
         #endregion
@@ -159,5 +164,10 @@ namespace l1_t2_calculator
             RefreshCalculatorView();
         }
 
+        private void btnCE_Click(object sender, RoutedEventArgs e)
+        {
+            ClearActiveRegister();
+            RefreshCalculatorView();
+        }
     }
 }
