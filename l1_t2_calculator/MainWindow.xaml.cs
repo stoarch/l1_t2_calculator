@@ -25,6 +25,8 @@ namespace l1_t2_calculator
     ///     до нажатия кнопки "=" (вычислить)
     /// 4. Активный регистр ограничен 7 символами
     /// 5. При нажатии 0 происходит сдвиг регистра (на 10), но только когда он > 0
+    /// 6. При нажатии на С стирается всё состояние калькулятора (активный регистр, результат
+    ///     регистр и история)
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -45,10 +47,18 @@ namespace l1_t2_calculator
             GrowAndShowBy(1);
         }
 
+        #region Calculator view model
         private void ShowActiveRegister()
         {
             textActiveRegister.Text = activeRegister.ToString(); 
         }
+
+        private void RefreshCalculatorView()
+        {
+            ShowActiveRegister();
+            textHistory.Text = history;
+        }
+        #endregion
 
         #region Calculator model
         /// <summary>
@@ -73,6 +83,17 @@ namespace l1_t2_calculator
 
             activeRegister *= 10;
             activeRegister += value;
+        }
+
+        /// <summary>
+        /// Очистить все регистры и историю (0 поставить в активный и результат регистры)
+        /// </summary>
+        void ClearCalculator()
+        {
+            activeRegister = 0;
+            activeRegisterDigits = 0;
+            resultRegister = 0;
+            history = "";
         }
 
         #endregion
@@ -131,5 +152,12 @@ namespace l1_t2_calculator
         {
             GrowAndShowBy(0);
         }
+
+        private void btnC_Click(object sender, RoutedEventArgs e)
+        {
+            ClearCalculator();
+            RefreshCalculatorView();
+        }
+
     }
 }
