@@ -16,13 +16,23 @@ using System.Windows.Shapes;
 namespace l1_t2_calculator
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Калькулятор: 
+    /// 1. Имеет активный регистр, где происходит ввод активного числа
+    ///     с которым мы будем работать
+    /// 2. Имеет регистр результат - куда будет сохраняться результат
+    ///     текущей операции
+    /// 3. Имеет регистр истории - куда пишется выражение введённое пользователем
+    ///     до нажатия кнопки "=" (вычислить)
+    /// 4. Активный регистр ограничен 7 символами
     /// </summary>
     public partial class MainWindow : Window
     {
+        const int MAX_ACTIVE_DIGITS = 7;
+
         float activeRegister = 0.0f;
         float resultRegister = 0.0f;
         string history = "";
+        int activeRegisterDigits = 0;
 
         public MainWindow()
         {
@@ -31,8 +41,7 @@ namespace l1_t2_calculator
 
         private void btn1_Click(object sender, RoutedEventArgs e)
         {
-            GrowNumberBy(1);
-            ShowActiveRegister();
+            GrowAndShowBy(1);
         }
 
         private void ShowActiveRegister()
@@ -40,6 +49,7 @@ namespace l1_t2_calculator
             textActiveRegister.Text = activeRegister.ToString(); 
         }
 
+        #region Calculator model
         /// <summary>
         /// Сдвинуть активный регистр на 1 порядок (*10) и добавить 
         /// данное значение
@@ -47,8 +57,33 @@ namespace l1_t2_calculator
         /// <param name="value">Значение к добавление</param>
         private void GrowNumberBy(int value)
         {
+            if(activeRegisterDigits == MAX_ACTIVE_DIGITS)
+            {
+                MessageBox.Show($"Maximum digits {MAX_ACTIVE_DIGITS}");
+                return;
+            }
+
+            activeRegisterDigits += 1;
+
             activeRegister *= 10;
             activeRegister += value;
+        }
+
+        #endregion
+
+        private void btn2_Click(object sender, RoutedEventArgs e)
+        {
+            GrowAndShowBy(2);
+        }
+
+        /// <summary>
+        /// Увеличить активный регистр
+        /// </summary>
+        /// <param name="value"></param>
+        private void GrowAndShowBy(int value)
+        {
+            GrowNumberBy(value);
+            ShowActiveRegister();
         }
     }
 }
