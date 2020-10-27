@@ -27,12 +27,14 @@ namespace l1_t2_calculator
     /// 5. При нажатии 0 происходит сдвиг регистра (на 10), но только когда он > 0
     /// 6. При нажатии на С стирается всё состояние калькулятора (активный регистр, результат
     ///     регистр и история)
+    /// 7. При нажатии на СЕ стирается только активный регистр
     /// </summary>
     public partial class MainWindow : Window
     {
         const int MAX_ACTIVE_DIGITS = 7;
+        const float EPS = 1e-3f;
 
-        float activeRegister = 0.0f;
+        float activeRegisterValue = 0.0f;
         float resultRegister = 0.0f;
         string history = "";
         int activeRegisterDigits = 0;
@@ -50,7 +52,7 @@ namespace l1_t2_calculator
         #region Calculator view model
         private void ShowActiveRegister()
         {
-            textActiveRegister.Text = activeRegister.ToString(); 
+            textActiveRegister.Text = activeRegisterValue.ToString(); 
         }
 
         private void RefreshCalculatorView()
@@ -66,7 +68,7 @@ namespace l1_t2_calculator
         /// данное значение
         /// </summary>
         /// <param name="value">Значение к добавление</param>
-        private void GrowNumberBy(int value) // Move -> Register class
+        private void GrowActiveRegisterDigitsBy(int value) // Move -> Register class
         {
             if(activeRegisterDigits == MAX_ACTIVE_DIGITS)
             {
@@ -74,15 +76,36 @@ namespace l1_t2_calculator
                 return;
             }
 
-            if((activeRegister == 0)&&(value == 0))
+            if((Math.Abs(activeRegisterValue) < EPS )&&(value == 0))
             {
                 return;
             }
 
             activeRegisterDigits += 1;
 
-            activeRegister *= 10;
-            activeRegister += value;
+            activeRegisterValue *= 10;
+            activeRegisterValue += value;
+        }
+
+        /// <summary>
+        /// Уменьшить активный регистр на 1 цифру (делить на 10 нацело)
+        /// </summary>
+        void ShrinkActiveRegisterDigitsByOne()
+        {
+            if(activeRegisterDigits == 0)
+            {
+                return;
+            }
+
+            if(Math.Abs(activeRegisterValue) < EPS)
+            {
+                return;
+            }
+
+            activeRegisterValue /= 10;
+            activeRegisterValue = (float)Math.Round((double)activeRegisterValue);
+
+            activeRegisterDigits -= 1;
         }
 
         /// <summary>
@@ -91,14 +114,14 @@ namespace l1_t2_calculator
         void ClearCalculator() // Move -> Calculator class
         {
             ClearActiveRegister();
-            activeRegisterDigits = 0;
             resultRegister = 0;
             history = "";
         }
 
         void ClearActiveRegister() // Move -> Register (active)
         {
-            activeRegister = 0;
+            activeRegisterValue = 0;
+            activeRegisterDigits = 0;
         }
 
         #endregion
@@ -114,7 +137,16 @@ namespace l1_t2_calculator
         /// <param name="value"></param>
         private void GrowAndShowBy(int value)
         {
-            GrowNumberBy(value);
+            GrowActiveRegisterDigitsBy(value);
+            ShowActiveRegister();
+        }
+
+        /// <summary>
+        /// Уменьшить регистр на одну цифру (разделить на 10 цело) и показать его
+        /// </summary>
+        private void ShrinkActiveRegisterAndShow()
+        {
+            ShrinkActiveRegisterDigitsByOne();
             ShowActiveRegister();
         }
 
@@ -167,7 +199,13 @@ namespace l1_t2_calculator
         private void btnCE_Click(object sender, RoutedEventArgs e)
         {
             ClearActiveRegister();
-            RefreshCalculatorView();
+            ShowActiveRegister();
         }
+
+        private void btnDel_Click(object sender, RoutedEventArgs e)
+        {
+            ShrinkActiveRegisterAndShow();
+        }
+
     }
 }
