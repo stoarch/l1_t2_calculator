@@ -51,6 +51,7 @@ namespace l1_t2_calculator
         private CalculatorState calculatorState = CalculatorState.InputFirstNumber;
         private string currentOperationName;
         private Func<float, float> currentOperationFun;
+        private Func<float, float> prevOperationFunction;
 
         public MainWindow()
         {
@@ -257,10 +258,14 @@ namespace l1_t2_calculator
                 CopyActiveToResultRegister();
 
                 SetHistoryToValueWithOperation(activeRegisterValue, operationName);
+
+                prevOperationFunction = operationFunction;
             }
             else if (calculatorState == CalculatorState.InputSecondNumber)
             {
-                CalculateResultFromOperation(operationName, operationFunction);
+                CalculateResultFromOperation(operationName, prevOperationFunction);
+
+                prevOperationFunction = operationFunction;
             }
 
             //Show previous register when we can enter new from scratch
@@ -313,6 +318,14 @@ namespace l1_t2_calculator
 
             SetCalculatorState(CalculatorState.CalculateResult);
             CalculateResultFromOperation(currentOperationName, currentOperationFun);
+        }
+
+        private void btnSub_Click(object sender, RoutedEventArgs e)
+        {
+            currentOperationName = "-";
+            currentOperationFun = (res) => res -= activeRegisterValue;
+
+            ApplyOperationToActiveRegisterAndView(currentOperationName, currentOperationFun);
         }
     }
 }

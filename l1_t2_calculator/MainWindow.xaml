@@ -41,7 +41,7 @@
         <Button Name="btn4" Grid.Column="0" Grid.Row="4" Margin="3" FontSize="33" Click="btn4_Click">4</Button>
         <Button Name="btn5" Grid.Column="1" Grid.Row="4" Margin="3" FontSize="33" Click="btn5_Click">5</Button>
         <Button x:Name="btn6" Grid.Column="2" Grid.Row="4" Margin="3" FontSize="33" Content="6" Click="btn6_Click"/>
-        <Button Name="btnSub" Grid.Column="3" Grid.Row="4" Margin="3" FontSize="33">-</Button>
+        <Button Name="btnSub" Grid.Column="3" Grid.Row="4" Margin="3" FontSize="33" Click="btnSub_Click">-</Button>
 
         <Button Name="btn1" Grid.Column="0" Grid.Row="5" Margin="3" FontSize="33" Click="btn1_Click">1</Button>
         <Button Name="btn2" Grid.Column="1" Grid.Row="5" Margin="3" FontSize="33" Click="btn2_Click">2</Button>
