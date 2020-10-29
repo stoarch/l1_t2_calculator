@@ -242,14 +242,6 @@ namespace l1_t2_calculator
 
         private void ApplyAddition()
         {
-            if (activeRegisterValue == 0)
-            {
-                return;
-            }
-
-            //TODO: Refactor it
-            //TODO: Second + does nothing (only after change)
-
             currentOperationName = "+";
             currentOperationFun = (res) => res += activeRegisterValue;
 
@@ -294,7 +286,7 @@ namespace l1_t2_calculator
 
         private void AppendHistoryWithValueAndOperation(float value, string operation)
         {
-            historyValue += $"{value} {operation}";
+            historyValue += $"{value} {operation} ";
         }
 
         private void SetHistoryToValueWithOperation(float value, string operation)
