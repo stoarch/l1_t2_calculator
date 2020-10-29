@@ -243,16 +243,22 @@ namespace l1_t2_calculator
             //TODO: Refactor it
             //TODO: Second + does nothing (only after change)
 
+            const string operationName = "+";
+            Func<float, float> operationFunction = (res) => res += activeRegisterValue;
+
             if (calculatorState == CalculatorState.InputFirstNumber)
             {
                 SetCalculatorState(CalculatorState.InputSecondNumber);
-                resultRegisterValue = activeRegisterValue;
-                historyValue = activeRegisterValue.ToString() + " + ";
+
+                CopyActiveToResultRegister();
+
+                SetHistoryToValueWithOperation( activeRegisterValue, operationName);
             }
             else if(calculatorState == CalculatorState.InputSecondNumber)
             {
-                resultRegisterValue += activeRegisterValue; //TODO: Move to AddOperation class
-                historyValue += activeRegisterValue.ToString() + " + ";
+                ApplyOperationToResultRegister(operationFunction);
+
+                AppendHistoryWithValueAndOperation(activeRegisterValue, operationName);
 
                 ShowResultRegister();
             }
@@ -262,6 +268,26 @@ namespace l1_t2_calculator
             activeRegisterValue = 0;
 
             ShowHistory();
+        }
+
+        private void ApplyOperationToResultRegister(Func<float, float> operation)
+        {
+            resultRegisterValue = operation(resultRegisterValue);
+        }
+
+        private void AppendHistoryWithValueAndOperation(float value, string operation)
+        {
+            historyValue += $"{value} {operation}";
+        }
+
+        private void SetHistoryToValueWithOperation(float value, string operation)
+        {
+            historyValue = $"{value} {operation}";
+        }
+
+        private void CopyActiveToResultRegister()
+        {
+            resultRegisterValue = activeRegisterValue;
         }
     }
 }
