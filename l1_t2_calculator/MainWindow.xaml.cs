@@ -286,6 +286,20 @@ namespace l1_t2_calculator
             ShowResultRegister();
         }
 
+        private void CalculateResultTotal(Func<float, float> operationFunction)
+        {
+            ApplyOperationToResultRegister(operationFunction);
+
+            ShowTotalInHistory();
+
+            ShowResultRegister();
+        }
+
+        private void ShowTotalInHistory()
+        {
+            historyValue += $"{activeRegisterValue} = {resultRegisterValue}";
+        }
+
         private void ApplyOperationToResultRegister(Func<float, float> operation)
         {
             resultRegisterValue = operation(resultRegisterValue);
@@ -318,8 +332,11 @@ namespace l1_t2_calculator
                 return;
             }
 
-            SetCalculatorState(CalculatorState.CalculateResult);
-            CalculateResultFromOperation(currentOperationName, currentOperationFun);
+            CalculateResultTotal(currentOperationFun);
+
+            SetCalculatorState(CalculatorState.InputFirstNumber);
+
+            ShowHistory();
         }
 
         private void btnSub_Click(object sender, RoutedEventArgs e)
