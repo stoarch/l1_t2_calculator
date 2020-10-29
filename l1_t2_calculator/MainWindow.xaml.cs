@@ -52,6 +52,7 @@ namespace l1_t2_calculator
         private string currentOperationName;
         private Func<float, float> currentOperationFun;
         private Func<float, float> prevOperationFunction;
+        private string prevOperationName;
 
         public MainWindow()
         {
@@ -140,6 +141,7 @@ namespace l1_t2_calculator
             ClearActiveRegister();
             resultRegisterValue = 0;
             historyValue = "";
+            SetCalculatorState(CalculatorState.InputFirstNumber);
         }
 
         void ClearActiveRegister() //TODO: Move -> Register (active)
@@ -322,8 +324,21 @@ namespace l1_t2_calculator
 
         private void btnSub_Click(object sender, RoutedEventArgs e)
         {
+            ApplySubstraction();
+        }
+
+        private void ApplySubstraction()
+        {
             currentOperationName = "-";
             currentOperationFun = (res) => res -= activeRegisterValue;
+
+            ApplyOperationToActiveRegisterAndView(currentOperationName, currentOperationFun);
+        }
+
+        private void btnMul_Click(object sender, RoutedEventArgs e)
+        {
+            currentOperationName = "*";
+            currentOperationFun = (res) => res *= activeRegisterValue;
 
             ApplyOperationToActiveRegisterAndView(currentOperationName, currentOperationFun);
         }
