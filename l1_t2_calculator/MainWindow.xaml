@@ -50,6 +50,6 @@
 
         <Button Name="btnPoint" Grid.Column="0" Grid.Row="6" Margin="3" FontSize="33">.</Button>
         <Button Name="btn0" Grid.Column="1" Grid.Row="6" Margin="3" FontSize="33" Click="btn0_Click">0</Button>
-        <Button x:Name="btnCalc" Grid.Column="2" Grid.Row="6" Margin="3" FontSize="33" Content="=" Grid.ColumnSpan="2"/>
+        <Button x:Name="btnCalc" Grid.Column="2" Grid.Row="6" Margin="3" FontSize="33" Content="=" Grid.ColumnSpan="2" Click="btnCalc_Click"/>
     </Grid>
 </Window>

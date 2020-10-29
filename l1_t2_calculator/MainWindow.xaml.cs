@@ -49,6 +49,8 @@ namespace l1_t2_calculator
 
         int activeRegisterDigits = 0;
         private CalculatorState calculatorState = CalculatorState.InputFirstNumber;
+        private string currentOperationName;
+        private Func<float, float> currentOperationFun;
 
         public MainWindow()
         {
@@ -235,7 +237,12 @@ namespace l1_t2_calculator
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            if(activeRegisterValue == 0)
+            ApplyAddition();
+        }
+
+        private void ApplyAddition()
+        {
+            if (activeRegisterValue == 0)
             {
                 return;
             }
@@ -243,24 +250,25 @@ namespace l1_t2_calculator
             //TODO: Refactor it
             //TODO: Second + does nothing (only after change)
 
-            const string operationName = "+";
-            Func<float, float> operationFunction = (res) => res += activeRegisterValue;
+            currentOperationName = "+";
+            currentOperationFun = (res) => res += activeRegisterValue;
 
+            ApplyOperationToActiveRegisterAndView(currentOperationName, currentOperationFun);
+        }
+
+        private void ApplyOperationToActiveRegisterAndView(string operationName, Func<float, float> operationFunction)
+        {
             if (calculatorState == CalculatorState.InputFirstNumber)
             {
                 SetCalculatorState(CalculatorState.InputSecondNumber);
 
                 CopyActiveToResultRegister();
 
-                SetHistoryToValueWithOperation( activeRegisterValue, operationName);
+                SetHistoryToValueWithOperation(activeRegisterValue, operationName);
             }
-            else if(calculatorState == CalculatorState.InputSecondNumber)
+            else if (calculatorState == CalculatorState.InputSecondNumber)
             {
-                ApplyOperationToResultRegister(operationFunction);
-
-                AppendHistoryWithValueAndOperation(activeRegisterValue, operationName);
-
-                ShowResultRegister();
+                CalculateResultFromOperation(operationName, operationFunction);
             }
 
             //Show previous register when we can enter new from scratch
@@ -268,6 +276,15 @@ namespace l1_t2_calculator
             activeRegisterValue = 0;
 
             ShowHistory();
+        }
+
+        private void CalculateResultFromOperation(string operationName, Func<float, float> operationFunction)
+        {
+            ApplyOperationToResultRegister(operationFunction);
+
+            AppendHistoryWithValueAndOperation(activeRegisterValue, operationName);
+
+            ShowResultRegister();
         }
 
         private void ApplyOperationToResultRegister(Func<float, float> operation)
@@ -288,6 +305,22 @@ namespace l1_t2_calculator
         private void CopyActiveToResultRegister()
         {
             resultRegisterValue = activeRegisterValue;
+        }
+
+        private void btnCalc_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyCalculation();
+        }
+
+        private void ApplyCalculation()
+        {
+            if (calculatorState == CalculatorState.InputFirstNumber)
+            {
+                return;
+            }
+
+            SetCalculatorState(CalculatorState.CalculateResult);
+            CalculateResultFromOperation(currentOperationName, currentOperationFun);
         }
     }
 }
