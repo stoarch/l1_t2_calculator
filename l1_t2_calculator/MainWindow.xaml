@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:l1_t2_calculator"
         mc:Ignorable="d"
-        Title="MainWindow" Height="452.813" Width="306.875" MinWidth="300" MinHeight="450">
+        Title="MainWindow" Height="452.813" Width="306.875" MinWidth="300" MinHeight="450"
+        PreviewKeyUp="Window_PreviewKeyUp">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -48,7 +49,7 @@
         <Button x:Name="btn3" Grid.Column="2" Grid.Row="5" Margin="3" FontSize="33" Content="3" Click="btn3_Click"/>
         <Button Name="btnAdd" Grid.Column="3" Grid.Row="5" Margin="3" FontSize="33" Click="btnAdd_Click">+</Button>
 
-        <Button Name="btnPoint" Grid.Column="0" Grid.Row="6" Margin="3" FontSize="33">.</Button>
+        <Button Name="btnPoint" Grid.Column="0" Grid.Row="6" Margin="3" FontSize="33" Click="btnPoint_Click">.</Button>
         <Button Name="btn0" Grid.Column="1" Grid.Row="6" Margin="3" FontSize="33" Click="btn0_Click">0</Button>
         <Button x:Name="btnCalc" Grid.Column="2" Grid.Row="6" Margin="3" FontSize="33" Content="=" Grid.ColumnSpan="2" Click="btnCalc_Click"/>
     </Grid>

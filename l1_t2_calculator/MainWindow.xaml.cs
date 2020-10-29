@@ -127,8 +127,8 @@ namespace l1_t2_calculator
                 return;
             }
 
-            activeRegisterValue /= 10;
-            activeRegisterValue = (float)Math.Round((double)activeRegisterValue);
+            activeRegisterValue /= 10.0F;
+            activeRegisterValue = (float)Math.Floor((double)activeRegisterValue);
 
             activeRegisterDigits -= 1;
         }
@@ -369,6 +369,11 @@ namespace l1_t2_calculator
 
         private void btnMul_Click(object sender, RoutedEventArgs e)
         {
+            ApplyMultiplication();
+        }
+
+        private void ApplyMultiplication()
+        {
             currentOperationName = "*";
             currentOperationFun = (res) => res *= activeRegisterValue;
 
@@ -377,14 +382,18 @@ namespace l1_t2_calculator
 
         private void btnDivision_Click(object sender, RoutedEventArgs e)
         {
+            ApplyDivision();
+        }
 
+        private void ApplyDivision()
+        {
             currentOperationName = "/";
             currentOperationFun = (res) =>
             {
                 if (activeRegisterValue == 0)
                 {
                     ShowErrorMessage("Division by zero"); ; ;
-                    throw new DivideByZeroException(); 
+                    throw new DivideByZeroException();
                 }
 
                 return res /= activeRegisterValue;
@@ -397,5 +406,44 @@ namespace l1_t2_calculator
         {
             textRegister.Text = message;
         }
+
+        private void btnPoint_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO: Implement floating points
+        }
+
+        private void Window_PreviewKeyUp(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Escape)
+            {
+                ClearCalculator();
+                RefreshCalculatorView();
+            }
+            else if(e.Key == Key.Enter)
+            {
+                ApplyCalculation();
+            }
+            else if(e.Key == Key.Add)
+            {
+                ApplyAddition();
+            }
+            else if(e.Key == Key.Subtract)
+            {
+                ApplySubstraction();
+            }
+            else if(e.Key == Key.Multiply)
+            {
+                ApplyMultiplication();
+            }
+            else if(e.Key == Key.Divide)
+            {
+                ApplyDivision();
+            }
+            else if(e.Key == Key.Back)
+            {
+                ShrinkActiveRegisterAndShow();
+            }
+        }
+
     }
 }
