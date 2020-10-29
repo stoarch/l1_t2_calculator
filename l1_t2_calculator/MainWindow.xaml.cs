@@ -28,16 +28,27 @@ namespace l1_t2_calculator
     /// 6. При нажатии на С стирается всё состояние калькулятора (активный регистр, результат
     ///     регистр и история)
     /// 7. При нажатии на СЕ стирается только активный регистр
+    /// 8. При нажатии на удалить (<) активный регистр уменьшается на 1 цифру 
     /// </summary>
     public partial class MainWindow : Window
     {
+        enum CalculatorState
+        {
+            Unknown,
+            InputFirstNumber,
+            InputSecondNumber,
+            CalculateResult
+        }
+
         const int MAX_ACTIVE_DIGITS = 7;
         const float EPS = 1e-3f;
 
         float activeRegisterValue = 0.0f;
-        float resultRegister = 0.0f;
-        string history = "";
+        float resultRegisterValue = 0.0f;
+        string historyValue = "";
+
         int activeRegisterDigits = 0;
+        private CalculatorState calculatorState = CalculatorState.InputFirstNumber;
 
         public MainWindow()
         {
@@ -52,13 +63,23 @@ namespace l1_t2_calculator
         #region Calculator view model
         private void ShowActiveRegister()
         {
-            textActiveRegister.Text = activeRegisterValue.ToString(); 
+            textRegister.Text = activeRegisterValue.ToString(); 
+        }
+
+        private void ShowResultRegister()
+        {
+            textRegister.Text = resultRegisterValue.ToString(); 
         }
 
         private void RefreshCalculatorView()
         {
             ShowActiveRegister();
-            textHistory.Text = history;
+            ShowHistory();
+        }
+
+        private void ShowHistory()
+        {
+            textHistory.Text = historyValue;
         }
         #endregion
 
@@ -68,7 +89,7 @@ namespace l1_t2_calculator
         /// данное значение
         /// </summary>
         /// <param name="value">Значение к добавление</param>
-        private void GrowActiveRegisterDigitsBy(int value) // Move -> Register class
+        private void GrowActiveRegisterDigitsBy(int value) //TODO: Move Calculator: activeRegister -> Register class
         {
             if(activeRegisterDigits == MAX_ACTIVE_DIGITS)
             {
@@ -90,7 +111,7 @@ namespace l1_t2_calculator
         /// <summary>
         /// Уменьшить активный регистр на 1 цифру (делить на 10 нацело)
         /// </summary>
-        void ShrinkActiveRegisterDigitsByOne()
+        void ShrinkActiveRegisterDigitsByOne() //TODO: Move Calculator: activeRegister -> Register class
         {
             if(activeRegisterDigits == 0)
             {
@@ -111,17 +132,22 @@ namespace l1_t2_calculator
         /// <summary>
         /// Очистить все регистры и историю (0 поставить в активный и результат регистры)
         /// </summary>
-        void ClearCalculator() // Move -> Calculator class
+        void ClearCalculator() //TODO: Move -> Calculator class
         {
             ClearActiveRegister();
-            resultRegister = 0;
-            history = "";
+            resultRegisterValue = 0;
+            historyValue = "";
         }
 
-        void ClearActiveRegister() // Move -> Register (active)
+        void ClearActiveRegister() //TODO: Move -> Register (active)
         {
             activeRegisterValue = 0;
             activeRegisterDigits = 0;
+        }
+
+        void SetCalculatorState( CalculatorState newState)
+        {
+            calculatorState = newState;
         }
 
         #endregion
@@ -207,5 +233,35 @@ namespace l1_t2_calculator
             ShrinkActiveRegisterAndShow();
         }
 
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            if(activeRegisterValue == 0)
+            {
+                return;
+            }
+
+            //TODO: Refactor it
+            //TODO: Second + does nothing (only after change)
+
+            if (calculatorState == CalculatorState.InputFirstNumber)
+            {
+                SetCalculatorState(CalculatorState.InputSecondNumber);
+                resultRegisterValue = activeRegisterValue;
+                historyValue = activeRegisterValue.ToString() + " + ";
+            }
+            else if(calculatorState == CalculatorState.InputSecondNumber)
+            {
+                resultRegisterValue += activeRegisterValue; //TODO: Move to AddOperation class
+                historyValue += activeRegisterValue.ToString() + " + ";
+
+                ShowResultRegister();
+            }
+
+            //Show previous register when we can enter new from scratch
+            activeRegisterDigits = 0; //clear calculator
+            activeRegisterValue = 0;
+
+            ShowHistory();
+        }
     }
 }

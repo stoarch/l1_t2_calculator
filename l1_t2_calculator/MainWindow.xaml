@@ -26,7 +26,7 @@
             <TextBlock Name="textHistory" TextAlignment="Right" Foreground="#FF1D978C" VerticalAlignment="Center"/>
         </Border>
         <Border Margin="2" Grid.ColumnSpan="4" Grid.Row="1" BorderBrush="#BF389C97" BorderThickness="1">
-            <TextBlock Name="textActiveRegister"  Text="0" TextAlignment="Right" Foreground="Black" VerticalAlignment="Center" FontSize="40" FontWeight="Bold"/>
+            <TextBlock Name="textRegister"  Text="0" TextAlignment="Right" Foreground="Black" VerticalAlignment="Center" FontSize="40" FontWeight="Bold"/>
         </Border>
         <Button Name="btnCE" Grid.Column="0" Grid.Row="2" Margin="3" FontSize="33" Click="btnCE_Click">CE</Button>
         <Button Name="btnC" Grid.Column="1" Grid.Row="2" Margin="3" FontSize="33" Foreground="Red" Click="btnC_Click">C</Button>
@@ -46,7 +46,7 @@
         <Button Name="btn1" Grid.Column="0" Grid.Row="5" Margin="3" FontSize="33" Click="btn1_Click">1</Button>
         <Button Name="btn2" Grid.Column="1" Grid.Row="5" Margin="3" FontSize="33" Click="btn2_Click">2</Button>
         <Button x:Name="btn3" Grid.Column="2" Grid.Row="5" Margin="3" FontSize="33" Content="3" Click="btn3_Click"/>
-        <Button Name="btnAdd" Grid.Column="3" Grid.Row="5" Margin="3" FontSize="33">+</Button>
+        <Button Name="btnAdd" Grid.Column="3" Grid.Row="5" Margin="3" FontSize="33" Click="btnAdd_Click">+</Button>
 
         <Button Name="btnPoint" Grid.Column="0" Grid.Row="6" Margin="3" FontSize="33">.</Button>
         <Button Name="btn0" Grid.Column="1" Grid.Row="6" Margin="3" FontSize="33" Click="btn0_Click">0</Button>
