@@ -253,28 +253,34 @@ namespace l1_t2_calculator
 
         private void ApplyOperationToActiveRegisterAndView(string operationName, Func<float, float> operationFunction)
         {
-            if (calculatorState == CalculatorState.InputFirstNumber)
+            try
             {
-                SetCalculatorState(CalculatorState.InputSecondNumber);
+                if (calculatorState == CalculatorState.InputFirstNumber)
+                {
+                    SetCalculatorState(CalculatorState.InputSecondNumber);
 
-                CopyActiveToResultRegister();
+                    CopyActiveToResultRegister();
 
-                SetHistoryToValueWithOperation(activeRegisterValue, operationName);
+                    SetHistoryToValueWithOperation(activeRegisterValue, operationName);
 
-                prevOperationFunction = operationFunction;
-            }
-            else if (calculatorState == CalculatorState.InputSecondNumber)
+                    prevOperationFunction = operationFunction;
+                }
+                else if (calculatorState == CalculatorState.InputSecondNumber)
+                {
+                    CalculateResultFromOperation(operationName, prevOperationFunction);
+
+                    prevOperationFunction = operationFunction;
+                }
+
+                //Show previous register when we can enter new from scratch
+                activeRegisterDigits = 0; //clear calculator
+                activeRegisterValue = 0;
+
+                ShowHistory();
+            }catch(Exception e)
             {
-                CalculateResultFromOperation(operationName, prevOperationFunction);
-
-                prevOperationFunction = operationFunction;
+                ShowErrorMessage(e.Message);
             }
-
-            //Show previous register when we can enter new from scratch
-            activeRegisterDigits = 0; //clear calculator
-            activeRegisterValue = 0;
-
-            ShowHistory();
         }
 
         private void CalculateResultFromOperation(string operationName, Func<float, float> operationFunction)
@@ -288,11 +294,20 @@ namespace l1_t2_calculator
 
         private void CalculateResultTotal(Func<float, float> operationFunction)
         {
-            ApplyOperationToResultRegister(operationFunction);
+            try
+            {
+                ApplyOperationToResultRegister(operationFunction);
 
-            ShowTotalInHistory();
+                ShowTotalInHistory();
 
-            ShowResultRegister();
+                activeRegisterValue = resultRegisterValue;
+                resultRegisterValue = 0;
+
+                ShowActiveRegister();
+            }catch(Exception e)
+            {
+                ShowErrorMessage(e.Message);
+            }
         }
 
         private void ShowTotalInHistory()
@@ -358,6 +373,29 @@ namespace l1_t2_calculator
             currentOperationFun = (res) => res *= activeRegisterValue;
 
             ApplyOperationToActiveRegisterAndView(currentOperationName, currentOperationFun);
+        }
+
+        private void btnDivision_Click(object sender, RoutedEventArgs e)
+        {
+
+            currentOperationName = "/";
+            currentOperationFun = (res) =>
+            {
+                if (activeRegisterValue == 0)
+                {
+                    ShowErrorMessage("Division by zero"); ; ;
+                    throw new DivideByZeroException(); 
+                }
+
+                return res /= activeRegisterValue;
+            };
+
+            ApplyOperationToActiveRegisterAndView(currentOperationName, currentOperationFun);
+        }
+
+        private void ShowErrorMessage(string message)
+        {
+            textRegister.Text = message;
         }
     }
 }

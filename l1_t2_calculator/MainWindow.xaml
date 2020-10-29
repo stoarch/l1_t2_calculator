@@ -31,7 +31,7 @@
         <Button Name="btnCE" Grid.Column="0" Grid.Row="2" Margin="3" FontSize="33" Click="btnCE_Click">CE</Button>
         <Button Name="btnC" Grid.Column="1" Grid.Row="2" Margin="3" FontSize="33" Foreground="Red" Click="btnC_Click">C</Button>
         <Button x:Name="btnDel" Grid.Column="2" Grid.Row="2" Margin="3" FontSize="33" Content="&lt;" Click="btnDel_Click"/>
-        <Button Name="btnDivision" Grid.Column="3" Grid.Row="2" Margin="3" FontSize="33">/</Button>
+        <Button Name="btnDivision" Grid.Column="3" Grid.Row="2" Margin="3" FontSize="33" Click="btnDivision_Click">/</Button>
 
         <Button Name="btn7" Grid.Column="0" Grid.Row="3" Margin="3" FontSize="33" Click="btn7_Click">7</Button>
         <Button Name="btn8" Grid.Column="1" Grid.Row="3" Margin="3" FontSize="33" Click="btn8_Click">8</Button>
